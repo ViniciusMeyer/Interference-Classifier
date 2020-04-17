@@ -1,8 +1,8 @@
-# An Interference-Aware Application Classifier Based on Machine Learning to Improve Scheduling in Clouds
+#Title
 
-Submitted to **28th Euromicro International Conference on Parallel, Distributed, and Network-Based Processing (PDP2020)**
+Submitted to **Journal of Systems Architecture**
 
-http://www.pdp2020.com
+https://www.journals.elsevier.com/journal-of-systems-architecture
 
 Here, you will find all used codes and results from the submitted paper.</br>
 
