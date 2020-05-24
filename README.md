@@ -4,7 +4,7 @@ Submitted to **Journal of Systems Architecture**
 
 https://www.journals.elsevier.com/journal-of-systems-architecture
 
-Here, you will find all used codes and results from the submitted paper.</br>
+Here, you will find all used codes and results from this paper.</br>
 
 
 Authors: Vinícius Meyer, Dionatrã F. Kirchoff, Matheus L. da Silva and César A. F. De Rose</br> 
