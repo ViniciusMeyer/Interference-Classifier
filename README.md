@@ -10,7 +10,7 @@ Authors: Vinícius Meyer, Dionatrã F. Kirchoff, Matheus L. da Silva and César 
 School of Technology, Pontifical Catholic University of Rio Grande do Sul (PUCRS) - Porto Alegre, Brazil</br> 
 Reference: to appear</br> 
 
-# How-to-use
+## How-to-use
 
 **Classifier.R** is the main class to run the interference-aware classification from a given profiled application. There are few variables that need to be filled, as follows:
 
@@ -22,7 +22,7 @@ Reference: to appear</br>
 
 **method** set the method used outcome classification. In this paper we only use "L" (level), it means that all classes of interference (CPU, Cache, Disk, Network and Memory) will recieve one of four defined levels (High, Moderate, Low, or Absent) using the K-means model. Other types of classifications were tested in preliminary experiments, such as: "C"(class) returns the major class of interference, this means that from a given profiled period, yhe most representative, or the interference class that suffers the most, will be exposed; or "P"(percent) that brings the percentage of each class of interference from a given period.
 
-# Folders
+## Folders
 
 **Trainig Dataset** refers to data used to build the machine learning models (SVM and K-means).
 
