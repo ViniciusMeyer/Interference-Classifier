@@ -25,11 +25,11 @@ Few variables need to be filled, as follows:
 
 ## Folders
 
-**Training Dataset** refers to data used to build the machine learning models (SVM and K-means).
+**training_Dataset** refers to data used to build the machine learning models (SVM and K-means).
 
-**Source** contains the profiled data from used applications (Bench4Q, LinkBench, and TPC-H).
+**source** contains the profiled data from used applications (Bench4Q, LinkBench, and TPC-H).
 
-**Accuracy** presents the font codes to perform the accuracy evaluation phase.
+**accuracy** presents the font codes to perform the accuracy evaluation phase.
 
 
 If you have any question please do not hesitate to contact us through vinicius.meyer@edu.pucrs.br</br>
