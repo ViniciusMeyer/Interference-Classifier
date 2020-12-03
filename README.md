@@ -25,7 +25,7 @@ Few variables need to be filled, as follows:
 
 ## Folders
 
-**training_Dataset** refers to data used to build the machine learning models (SVM and K-means).
+**training_dataset** refers to data used to build the machine learning models (SVM and K-means).
 
 **source** contains the profiled data from used applications (Bench4Q, LinkBench, and TPC-H).
 
