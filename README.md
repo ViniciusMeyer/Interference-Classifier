@@ -1,10 +1,10 @@
 # ML-Driven Classification Scheme for DynamicInterference-Aware Resource Scheduling in Cloud Infrastructure
 
-Submitted to **Journal of Systems Architecture**
+This repository refers to a paper submitted to **Journal of Systems Architecture**.
 
 https://www.journals.elsevier.com/journal-of-systems-architecture
 
-Here, you will find all used codes and results from this paper.</br>
+Here, you will find all used codes and results from this work.</br>
 
 Authors: Vinícius Meyer, Dionatrã F. Kirchoff, Matheus L. da Silva and César A. F. De Rose</br> 
 School of Technology, Pontifical Catholic University of Rio Grande do Sul (PUCRS) - Porto Alegre, Brazil</br> 
