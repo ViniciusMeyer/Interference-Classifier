@@ -1,3 +1,11 @@
+##################################################
+## Project: Interference-classifier
+## Script purpose: Scientific reproducibility
+## Date: 01-14-2021
+## Author: Vinícius Meyer
+##################################################
+
+
 library("e1071")
 library(ggplot2)
 library(reshape2)
@@ -8,7 +16,6 @@ library(dplyr)
 library(caret)
 
 folder_source <- "./training_dataset/"
-
 
 rows<-1000
 #importing cache
@@ -41,8 +48,7 @@ df_network <- read.csv2(paste(folder_source,"net100.csv", sep = ""), sep=";",nro
 net<-data.frame(df_network[,1],df_network[,2],df_network[,3],df_network[,4],df_network[,5],df_network[,6],df_network[,7],"net")
 net<-setNames(net,c("netp","nets","blk","mbw","llcmr","llcocc","cpu","category"))
 
-
-total <- rbind(cache, mem, disk, cpu, net)#, cache_miss)
+total <- rbind(cache, mem, disk, cpu, net, cache_miss)
 train <- sample(1:nrow(total), 0.7*nrow(total))  
 test <- setdiff(1:nrow(total), train)
 

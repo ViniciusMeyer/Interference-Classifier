@@ -1,40 +1,74 @@
-#install.packages('ggplot2')
-#install.packages('reshape2')
-#install.packages('gtable')
-#install.packages('scales')
-#install.packages("e1071")
-#install.packages("caret")
-#install.packages("stringr") 
+##################################################
+## Project: Interference-classifier
+## Script purpose: Scientific reproducibility
+## Date: 01-14-2021
+## Author: Vinícius Meyer
+##################################################
 
 
+#clean memory information (start fresh)
 rm(list=ls())
 
-library("stats") 
-library("e1071")
-library(ggplot2)
-library(reshape2)
-library(gtable)
-library(scales)
-library(lattice)
-library("stringr") 
+#load/install R packages
+requiredPackages = c('stats','e1071','ggplot2','reshape2','gtable','scales','lattice','stringr','caret','ipred','dplyr')
+for(p in requiredPackages){
+  if(!require(p,character.only = TRUE)) install.packages(p)
+  library(p,character.only = TRUE)
+}
 
 
-linkbench_inc <- "./source/linkbench/inc.csv"
-linkbench_dec <- "./source/linkbench/dec.csv"
-linkbench_osc <- "./source/linkbench/osc.csv"
-linkbench_con <- "./source/linkbench/con.csv"
-tpch_inc <- "./source/tpch/inc.csv"
-tpch_osc <- "./source/tpch/osc.csv"
-tpch_dec <- "./source/tpch/dec.csv"
-tpch_con <- "./source/tpch/con.csv"
-bench4q_inc <- "./source/bench4q/inc.csv"
-bench4q_osc <- "./source/bench4q/osc.csv"
-bench4q_con <- "./source/bench4q/con.csv"
-bench4q_dec <- "./source/bench4q/dec.csv"
+#load R files from project
+if(.Platform$OS.type == "unix") {
 
-app_tittle <-bench4q_inc  
-period <- 100  #% of sample
-technique <- "SVM" #ANN, DT, KNN, RF or SVM -> here we used only SVM, others techniques have been tested in preliminary phases
+  print("OS - Linux")
+  folder_source <- "./training_dataset/"
+  source("./input_dataset.R")
+  total <- input_dataset(folder_source)
+  source("./kmeans.R")
+  source("./SVM.R")
+  
+  #load all traces from experiments
+  linkbench_inc <- "./source/linkbench/inc.csv"
+  linkbench_dec <- "./source/linkbench/dec.csv"
+  linkbench_osc <- "./source/linkbench/osc.csv"
+  linkbench_con <- "./source/linkbench/con.csv"
+  tpch_inc <- "./source/tpch/inc.csv"
+  tpch_osc <- "./source/tpch/osc.csv"
+  tpch_dec <- "./source/tpch/dec.csv"
+  tpch_con <- "./source/tpch/con.csv"
+  bench4q_inc <- "./source/bench4q/inc.csv"
+  bench4q_osc <- "./source/bench4q/osc.csv"
+  bench4q_con <- "./source/bench4q/con.csv"
+  bench4q_dec <- "./source/bench4q/dec.csv"
+  result <- "./result.pdf"
+  
+}else {
+  print("OS - Windows")
+  folder_source <- paste(getwd(),"/training_dataset/", sep="")
+  source(paste(getwd(),"/input_dataset.R",sep=""))
+  total <- input_dataset(folder_source)
+  source(paste(getwd(),"/kmeans.R",sep=""))
+  source(paste(getwd(),"/SVM.R",sep=""))
+
+  #load all traces from experiments
+  linkbench_inc <- paste(getwd(),"/source/linkbench/inc.csv",sep="")
+  linkbench_dec <- paste(getwd(),"/source/linkbench/dec.csv",sep="")
+  linkbench_osc <- paste(getwd(),"/source/linkbench/osc.csv",sep="")
+  linkbench_con <- paste(getwd(),"/source/linkbench/con.csv",sep="")
+  tpch_inc <- paste(getwd(),"/source/tpch/inc.csv",sep="")
+  tpch_osc <- paste(getwd(),"/source/tpch/osc.csv",sep="")
+  tpch_dec <- paste(getwd(),"/source/tpch/dec.csv",sep="")
+  tpch_con <- paste(getwd(),"/source/tpch/con.csv",sep="")
+  bench4q_inc <- paste(getwd(),"/source/bench4q/inc.csv",sep="")
+  bench4q_osc <- paste(getwd(),"/source/bench4q/osc.csv",sep="")
+  bench4q_con <- paste(getwd(),"/source/bench4q/con.csv",sep="")
+  bench4q_dec <- paste(getwd(),"/source/bench4q/dec.csv",sep="")
+  result <- paste(getwd(),"/result.pdf",,sep="")
+}
+
+
+app_tittle <- bench4q_inc  
+period <- 25  #% of sample
 method<- "L" # "C"(class) or "P"(percent) or "L" (level) -> here we used only Level (L)
 
 
@@ -47,7 +81,7 @@ time_app<- seq(1,nrow(df_app))
 app_g<-data.frame(time_app,df_app[,1],df_app[,2],df_app[,3],df_app[,4],df_app[,5],df_app[,6],df_app[,7],"")
 app_g<-setNames(app_g,c("time","netp","nets","blk","mbw","llcmr","llcocc","cpu","category"))
 
-#setting interval in %
+#set interval in %
 inter <-max(time_app)*1.01*(period/100)
 if(inter-as.integer(inter)>=0.5){
   interval<-as.integer(inter)
@@ -56,68 +90,22 @@ if(inter-as.integer(inter)>=0.5){
 }
 
 
-if(technique=="ANN"){
-  print("ANN")
-  source("~/interference/r/categories/ANN.R")
-  if(method=="C"){
-    classifier <- as.data.frame(ann_classifier_class(app,interval))
-  }else if(method=="P"){
-    classifier <-  ann_classifier_percent(app,interval)
-  }else if(method=="L"){
-    classifier <-  ann_classifier_level(app,interval)
-  }
-}else if(technique=='DT'){
-  print("DT")
-  source("~/interference/r/categories/DT.R")
-  if(method=="C"){
-    classifier<- as.data.frame(dt_classifier_class(app,interval))
-  }else if(method=="P"){
-    classifier <-  dt_classifier_percent(app,interval)
-  }else if(method=="L"){
-    classifier <-  dt_classifier_level(app,interval)
-  }
-}else if(technique=='KNN'){
-  print("KNN")
-  source("~/interference/r/categories/KNN.R")
-  if(method=="C"){
-    classifier <- as.data.frame(knn_classifier_class(app,interval))
-  }else if(method=="P"){
-    classifier <-  knn_classifier_percent(app,interval)
-  }else if(method=="L"){
-    classifier <-  knn_classifier_level(app,interval)
-  }
-}else if(technique=='RF'){
-  print("RF")
-  source("~/interference/r/categories/RF.R")
-  if(method=="C"){
-    classifier <- as.data.frame(rf_classifier_class(app,interval))
-  }else if(method=="P"){
-    classifier <-  rf_classifier_percent(app,interval)
-  }else if(method=="L"){
-    classifier <-  rf_classifier_level(app,interval)
-  }
-}else if(technique=='SVM'){
-  print("SVM")
-  #loading SVM
-  source("~/interference/r/categories/SVM.R")
-  if(method=="C"){
-    classifier <- as.data.frame(svm_classifier_class(app,interval))
-  }else if(method=="P"){
-    classifier <-  svm_classifier_percent(app,interval)
-  }else if(method=="L"){
-    #calling classifier method
-    classifier <-  svm_classifier_level(app,interval)
-  }
-  
+#choose SVM methods
+if(method=="C"){
+  classifier <- as.data.frame(svm_classifier_class(app,interval))
+}else if(method=="P"){
+  classifier <-  svm_classifier_percent(app,interval)
+}else if(method=="L"){
+  classifier <-  svm_classifier_level(app,interval)
 }
+  
 
+#print result classification (width and height need to be resized depending on the data quantity)
+pdf(result, width=5.5, height=2.75)
 
-
-#printing result classification
-pdf("./result.pdf", width=5.5, height=2.75)
-
+# plot configuration
 p <- ggplot(app_g, aes(x=time)) 
-
+#lines
 p <- p+  geom_line(aes(y=netp,color="netp")) 
 p <- p+  geom_line(aes(y=nets,color="nets")) 
 p <- p+  geom_line(aes(y=blk,color="blk")) 
@@ -125,6 +113,7 @@ p <- p+  geom_line(aes(y=mbw,color="mbw"))
 p <- p+  geom_line(aes(y=llcmr,color="llcmr")) 
 p <- p+  geom_line(aes(y=llcocc,color="llcocc"))
 p <- p+  geom_line(aes(y=cpu,color="cpu")) 
+#color
 p <- p+  scale_color_manual(values = c(
     'netp' = 'darkblue',  
     'nets' = 'red',
@@ -133,8 +122,9 @@ p <- p+  scale_color_manual(values = c(
     'llcmr' = 'darkgray',
     'llcocc' = 'orange',
     'cpu' = 'black')) 
+#labels
 p <- p+  labs(color = 'Resources', x="Time (seconds)", y="Interference (%)") 
-#p <- p+  labs(color = 'Resources', title=paste(app_tittle," - Pantanal01 - ",technique, " (",method,")"), x="Time (seconds)", y="Interference (%)") 
+#general configuration
 p <- p+  theme_bw()  
 p <- p+  scale_x_continuous(breaks= seq(0, max(app_g$time), by = 100))
 p <- p+  theme(text=element_text(family="Times")) 
@@ -147,6 +137,7 @@ titles <- vector()
 pos.x2 <- vector()
 titles2 <- vector()
 
+#plot Class
 if(method=="C"){
 
 
@@ -161,7 +152,8 @@ if(method=="C"){
   }
   p <- p + annotate("text", x = pos.x, y = pos.y, label = titles,size=3)
   lim_inf<- -10
-  
+
+#plot Percent or Level  
 }else if(method=="P" || method=="L" ){
   
   control<-0
@@ -200,7 +192,7 @@ if(method=="C"){
 }
 p <- p+  scale_y_continuous(limits=c(lim_inf, 100))
 
-p
-#facet_grid(threads ~.)
+#final plot
+p 
 
 dev.off()

@@ -1,6 +1,12 @@
+##################################################
+## Project: Interference-classifier
+## Script purpose: Scientific reproducibility
+## Date: 01-14-2021
+## Author: Vinícius Meyer
+##################################################
+
 input_dataset <- function(folder_source){
-    
-  
+
 #importing cache
 df_cache <- read.csv2(paste(folder_source,"cache100.csv", sep = ""), sep=";")
 cache<-data.frame(df_cache[,1],df_cache[,2],df_cache[,3],df_cache[,4],df_cache[,5],df_cache[,6],df_cache[,7],"cache")
