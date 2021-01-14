@@ -63,7 +63,7 @@ if(.Platform$OS.type == "unix") {
   bench4q_osc <- paste(getwd(),"/source/bench4q/osc.csv",sep="")
   bench4q_con <- paste(getwd(),"/source/bench4q/con.csv",sep="")
   bench4q_dec <- paste(getwd(),"/source/bench4q/dec.csv",sep="")
-  result <- paste(getwd(),"/result.pdf",,sep="")
+  result <- paste(getwd(),"/result.pdf",sep="")
 }
 
 
