@@ -1,4 +1,4 @@
-# ML-driven Classification Scheme for DynamicInterference-aware Resource Scheduling in Cloud Infrastructure
+# ML-driven Classification Scheme for Dynamic Interference-aware Resource Scheduling in Cloud Infrastructure
 
 This repository refers to a paper submitted to **Journal of Systems Architecture**.
 
